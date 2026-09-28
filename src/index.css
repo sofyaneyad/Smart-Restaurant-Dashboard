@@ -40,3 +40,13 @@
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(156, 163, 175, 0.6);
 }
+
+/* Autofill styling override for dark mode */
+.dark input:-webkit-autofill,
+.dark input:-webkit-autofill:hover, 
+.dark input:-webkit-autofill:focus, 
+.dark input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px #181d2a inset !important;
+  -webkit-text-fill-color: #f4f4f5 !important;
+  transition: background-color 5000s ease-in-out 0s;
+}

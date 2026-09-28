@@ -169,7 +169,7 @@ export function Login() {
             </AnimatePresence>
 
             {/* Email Form */}
-            <form onSubmit={handleSubmit(onLogin)} className="space-y-4">
+            <form onSubmit={handleSubmit(onLogin)} className="space-y-4" autoComplete="off">
               <div>
                 <label className="block text-xs font-semibold text-zinc-700 dark:text-zinc-300 mb-1">
                   البريد الإلكتروني للمدير
@@ -178,7 +178,8 @@ export function Login() {
                   <Mail className="absolute right-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
                   <Input
                     type="email"
-                    placeholder="sofyaneyad77@gmail.com"
+                    placeholder="أدخل البريد الإلكتروني"
+                    autoComplete="off"
                     className="pr-10"
                     error={errors.email?.message}
                     {...register('email')}
@@ -194,7 +195,8 @@ export function Login() {
                   <Lock className="absolute right-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
                   <Input
                     type="password"
-                    placeholder="••••••••"
+                    placeholder="أدخل كلمة المرور"
+                    autoComplete="new-password"
                     className="pr-10"
                     error={errors.password?.message}
                     {...register('password')}
