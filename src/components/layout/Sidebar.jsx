@@ -66,7 +66,7 @@ export function Sidebar({ isOpen, onClose }) {
                 </span>
               </h1>
               <p className="text-[11px] text-zinc-400 font-medium">
-                نظام إدارة المطعم السحابي
+                نظام إدارة المطعم
               </p>
             </div>
           </div>

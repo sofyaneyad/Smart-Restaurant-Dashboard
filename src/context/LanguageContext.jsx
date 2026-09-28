@@ -348,7 +348,7 @@ const translations = {
 
     // Auth / Login Page
     loginTitle: 'بوابة GourmetOS للمطاعم',
-    loginSubtitle: 'النظام السحابي الموحد لإدارة المطابخ والصالات والعمليات',
+    loginSubtitle: 'النظام الموحد لإدارة المطابخ والصالات والعمليات',
     signInTab: 'تسجيل الدخول',
     registerTab: 'تسجيل مدير جديد',
     googleSignIn: 'المتابعة بحساب Google',

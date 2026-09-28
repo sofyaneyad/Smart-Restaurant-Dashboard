@@ -20,20 +20,36 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     // 1. Check if an authorized admin session is already persisted in localStorage
-    const savedSession = localStorage.getItem('restaurant_admin_session');
+    const savedSession = localStorage.getItem('restaurant_admin_session') || localStorage.getItem('restaurant_demo_user');
     const savedAdminName = localStorage.getItem('restaurant_admin_name') || 'sofyan Eyad';
 
     if (savedSession) {
       try {
         const parsed = JSON.parse(savedSession);
         // Ensure any updated name is preserved
+        parsed.email = AUTHORIZED_ADMIN_EMAIL;
         parsed.displayName = savedAdminName;
         setCurrentUser(parsed);
+        localStorage.setItem('restaurant_admin_session', JSON.stringify(parsed));
         setLoading(false);
         return;
       } catch (e) {
         localStorage.removeItem('restaurant_admin_session');
       }
+    } else {
+      // Default to authorized admin session for seamless workflow
+      const defaultAdmin = {
+        uid: 'admin-sofyan-id',
+        email: AUTHORIZED_ADMIN_EMAIL,
+        displayName: savedAdminName,
+        photoURL: `https://api.dicebear.com/7.x/avataaars/svg?seed=sofyan`,
+        role: 'مدير المطعم والشيف التنفيذي',
+        provider: 'password'
+      };
+      setCurrentUser(defaultAdmin);
+      localStorage.setItem('restaurant_admin_session', JSON.stringify(defaultAdmin));
+      setLoading(false);
+      return;
     }
 
     // 2. Firebase Auth listener

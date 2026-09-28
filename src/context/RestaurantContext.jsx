@@ -3,40 +3,8 @@ import { initialProducts, initialOrders, initialCustomers, restaurantSettings } 
 
 const RestaurantContext = createContext();
 
-const initialNotificationsList = [
-  {
-    id: 1,
-    title: 'طلب صالة جديد #ORD-7822',
-    desc: 'طاولة 04 • 2 برجر أنجوس، 2 موخيتو دراغون ($50.00)',
-    time: 'منذ دقيقتين',
-    type: 'order',
-    isRead: false
-  },
-  {
-    id: 2,
-    title: 'تنبيه مخزون: كيكة الفستق البركانية',
-    desc: 'تبقى 18 قطعة فقط قبل فترة الذروة المسائية',
-    time: 'منذ 15 دقيقة',
-    type: 'inventory',
-    isRead: false
-  },
-  {
-    id: 3,
-    title: 'طلب الحساب: طاولة 12',
-    desc: 'الزبون طلب إغلاق الحساب وتسوية الفاتورة ($69.50)',
-    time: 'منذ 32 دقيقة',
-    type: 'service',
-    isRead: false
-  },
-  {
-    id: 4,
-    title: 'تم تسليم الطلب #ORD-7819',
-    desc: 'تم تسليم طلب التوصيل للعميل عمر فاروق',
-    time: 'منذ ساعة',
-    type: 'delivered',
-    isRead: true
-  }
-];
+// Notifications start empty and only trigger when a real order is added
+const initialNotificationsList = [];
 
 const defaultAnalyticsTargets = {
   week: {
@@ -118,7 +86,12 @@ export function RestaurantProvider({ children }) {
   const [notifications, setNotifications] = useState(() => {
     try {
       const saved = localStorage.getItem('restaurant_notifications');
-      return saved ? JSON.parse(saved) : initialNotificationsList;
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        // Filter out old mock notifications (IDs 1, 2, 3, 4) - only keep real orders
+        return parsed.filter((n) => typeof n.id === 'number' && n.id > 10000);
+      }
+      return initialNotificationsList;
     } catch (e) {
       console.error('Error loading notifications from localStorage', e);
       return initialNotificationsList;

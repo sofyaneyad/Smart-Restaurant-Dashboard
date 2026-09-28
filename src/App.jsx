@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
 import { AuthProvider } from './context/AuthContext';
 import { RestaurantProvider } from './context/RestaurantContext';
@@ -21,7 +21,7 @@ export default function App() {
     <ThemeProvider>
       <AuthProvider>
         <RestaurantProvider>
-          <BrowserRouter>
+          <HashRouter>
             <Routes>
               {/* Public Auth Route */}
               <Route path="/login" element={<Login />} />
@@ -47,7 +47,7 @@ export default function App() {
               {/* Catch-all redirect */}
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
-          </BrowserRouter>
+          </HashRouter>
         </RestaurantProvider>
       </AuthProvider>
     </ThemeProvider>

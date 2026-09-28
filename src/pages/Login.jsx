@@ -78,7 +78,7 @@ export function Login() {
         <div className="relative z-10 space-y-4 max-w-lg">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-xs font-semibold text-emerald-400">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            <span>نظام تشغيل المطاعم السحابي — بوابة المدير</span>
+            <span>نظام تشغيل المطاعم — بوابة المدير</span>
           </div>
 
           <h1 className="text-3xl xl:text-4xl font-extrabold text-white leading-tight">
@@ -86,13 +86,13 @@ export function Login() {
           </h1>
 
           <p className="text-sm text-zinc-300 leading-relaxed font-normal">
-            منظومة سحابية متقدمة تربط بين استلام الطلبات الحية، شاشات الطهاة في المطبخ، وهندسة تكلفة الوجبات بدقة فائقة.
+            منظومة متقدمة تربط بين استلام الطلبات الحية، شاشات الطهاة في المطبخ، وهندسة تكلفة الوجبات بدقة فائقة.
           </p>
 
           <div className="grid grid-cols-3 gap-3 pt-4 border-t border-white/10">
             <div>
               <p className="text-lg font-bold font-mono text-white">100%</p>
-              <p className="text-[11px] text-zinc-400">إدارة سحابية فورية</p>
+              <p className="text-[11px] text-zinc-400">إدارة فورية متكاملة</p>
             </div>
             <div>
               <p className="text-lg font-bold font-mono text-emerald-400">14.2 د</p>
