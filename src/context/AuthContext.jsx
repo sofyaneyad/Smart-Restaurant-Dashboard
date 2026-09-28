@@ -19,38 +19,29 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // 1. Check if an authorized admin session is already persisted in localStorage
-    const savedSession = localStorage.getItem('restaurant_admin_session') || localStorage.getItem('restaurant_demo_user');
+    // Purge any legacy auto-login session so fresh visits are forced to login
+    localStorage.removeItem('restaurant_admin_session');
+    localStorage.removeItem('restaurant_demo_user');
+
+    // 1. Check if an authorized admin session is active in current browser tab (sessionStorage)
+    const savedSession = sessionStorage.getItem('restaurant_admin_session');
     const savedAdminName = localStorage.getItem('restaurant_admin_name') || 'sofyan Eyad';
 
     if (savedSession) {
       try {
         const parsed = JSON.parse(savedSession);
-        // Ensure any updated name is preserved
         parsed.email = AUTHORIZED_ADMIN_EMAIL;
         parsed.displayName = savedAdminName;
         setCurrentUser(parsed);
-        localStorage.setItem('restaurant_admin_session', JSON.stringify(parsed));
-        setLoading(false);
-        return;
       } catch (e) {
-        localStorage.removeItem('restaurant_admin_session');
+        sessionStorage.removeItem('restaurant_admin_session');
+        setCurrentUser(null);
       }
     } else {
-      // Default to authorized admin session for seamless workflow
-      const defaultAdmin = {
-        uid: 'admin-sofyan-id',
-        email: AUTHORIZED_ADMIN_EMAIL,
-        displayName: savedAdminName,
-        photoURL: `https://api.dicebear.com/7.x/avataaars/svg?seed=sofyan`,
-        role: 'مدير المطعم والشيف التنفيذي',
-        provider: 'password'
-      };
-      setCurrentUser(defaultAdmin);
-      localStorage.setItem('restaurant_admin_session', JSON.stringify(defaultAdmin));
-      setLoading(false);
-      return;
+      // Must log in via email & password - no auto-bypass
+      setCurrentUser(null);
     }
+    setLoading(false);
 
     // 2. Firebase Auth listener
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -65,11 +56,8 @@ export function AuthProvider({ children }) {
           provider: 'password'
         };
         setCurrentUser(adminData);
-        localStorage.setItem('restaurant_admin_session', JSON.stringify(adminData));
-      } else if (!savedSession) {
-        setCurrentUser(null);
+        sessionStorage.setItem('restaurant_admin_session', JSON.stringify(adminData));
       }
-      setLoading(false);
     });
 
     return unsubscribe;
@@ -109,7 +97,7 @@ export function AuthProvider({ children }) {
     };
 
     setCurrentUser(adminUser);
-    localStorage.setItem('restaurant_admin_session', JSON.stringify(adminUser));
+    sessionStorage.setItem('restaurant_admin_session', JSON.stringify(adminUser));
     return adminUser;
   };
 
@@ -127,7 +115,7 @@ export function AuthProvider({ children }) {
         ...(prev || {}),
         displayName: trimmedName
       };
-      localStorage.setItem('restaurant_admin_session', JSON.stringify(updated));
+      sessionStorage.setItem('restaurant_admin_session', JSON.stringify(updated));
       return updated;
     });
 
@@ -145,6 +133,7 @@ export function AuthProvider({ children }) {
 
   // Logout
   const logout = async () => {
+    sessionStorage.removeItem('restaurant_admin_session');
     localStorage.removeItem('restaurant_admin_session');
     try {
       await signOut(auth);

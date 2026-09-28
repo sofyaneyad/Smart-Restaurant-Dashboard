@@ -5,8 +5,10 @@ const ThemeContext = createContext();
 export function ThemeProvider({ children }) {
   const [theme, setTheme] = useState(() => {
     const saved = localStorage.getItem('restaurant_dashboard_theme');
-    if (saved) return saved;
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    if (saved === 'light' && localStorage.getItem('restaurant_explicit_theme') === 'true') {
+      return 'light';
+    }
+    return 'dark'; // Default is strictly Dark Mode
   });
 
   useEffect(() => {
@@ -20,7 +22,11 @@ export function ThemeProvider({ children }) {
   }, [theme]);
 
   const toggleTheme = () => {
-    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
+    setTheme((prev) => {
+      const next = prev === 'dark' ? 'light' : 'dark';
+      localStorage.setItem('restaurant_explicit_theme', 'true');
+      return next;
+    });
   };
 
   return (

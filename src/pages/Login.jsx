@@ -29,11 +29,17 @@ export function Login() {
   const [authError, setAuthError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const { loginWithEmail } = useAuth();
+  const { currentUser, loginWithEmail } = useAuth();
   const { isDark, toggleTheme } = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || '/';
+
+  React.useEffect(() => {
+    if (currentUser) {
+      navigate('/', { replace: true });
+    }
+  }, [currentUser, navigate]);
 
   const {
     register,
@@ -42,7 +48,7 @@ export function Login() {
     formState: { errors }
   } = useForm({
     resolver: zodResolver(loginSchema),
-    defaultValues: { email: 'sofyaneyad77@gmail.com', password: '' }
+    defaultValues: { email: '', password: '' }
   });
 
   const onLogin = async (data) => {
@@ -172,7 +178,7 @@ export function Login() {
                   <Mail className="absolute right-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
                   <Input
                     type="email"
-                    placeholder="admin@smartrestaurant.com"
+                    placeholder="sofyaneyad77@gmail.com"
                     className="pr-10"
                     error={errors.email?.message}
                     {...register('email')}
